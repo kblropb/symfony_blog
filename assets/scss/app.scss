@@ -1,0 +1,17 @@
+@import "~bootstrap";
+
+body {
+  background-color: #ccc;
+}
+
+.page-title {
+  margin-top: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+.title {
+  .edit {
+    font-size: 1rem;
+    vertical-align: middle;
+    margin: 0 10px;
+  }
+}
