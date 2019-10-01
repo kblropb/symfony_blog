@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\User;
 use App\Form\Type\ArticleType;
+use App\Repository\ArticleRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,13 +94,29 @@ class ArticleController extends AbstractController
      * @ParamConverter("get", class="App\Entity\User")
      * @param User $user
      *
+     * @param ArticleRepository $repository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     *
      * @return Response
      */
-    public function authorArticles(User $user)
+    public function authorArticles(User $user, ArticleRepository $repository, Request $request, PaginatorInterface $paginator)
     {
+        $queryBuilder = $repository->getByUserQueryBuilder($user);
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1),
+            2
+        );
+
         return $this->render('feed.html.twig', [
             'pagetitle' => 'Articles by ' . $user->getEmail(),
-            'items' => $user->getArticles()
+            'pagination' => $pagination,
         ]);
+
+//        return $this->render('feed.html.twig', [
+//            'pagetitle' => ,
+//            'items' => $user->getArticles()
+//        ]);
     }
 }

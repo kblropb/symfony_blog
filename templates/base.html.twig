@@ -14,6 +14,13 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
     <div class="container">
         <a class="navbar-brand" href="/">Symfony - blog</a>
+        {% if app.user %}
+            <ul class="nav navbar-nav flex-row justify-content-between ml-5">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('article_new') }}">Add article</a>
+                </li>
+            </ul>
+        {% endif %}
 
         <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
             {% if app.user %}
